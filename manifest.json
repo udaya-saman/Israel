@@ -1,0 +1,9 @@
+{
+  "name": "Israel Interview Guide",
+  "short_name": "G2G Prep",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eaeff2",
+  "theme_color": "#0038b8",
+  "description": "Offline Interview Preparation App"
+}

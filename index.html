@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Israel G2G Interview</title>
+    <!-- Links to the Manifest for App Installation -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0038b8">
+    <style>
+        :root {
+            --primary: #0038b8;
+            --primary-dark: #00267a;
+            --secondary: #f4f6f9;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff;
+            --success: #28a745;
+            --warning: #ffc107;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --border-radius: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #eaeff2;
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .offline-badge {
+            display: none;
+            background: var(--success);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 10px auto 0;
+            width: fit-content;
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 10px 0 20px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .filter-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            background-color: var(--text-light);
+            color: var(--text-dark);
+            border: 2px solid transparent;
+            padding: 10px 18px;
+            border-radius: 25px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: var(--text-light);
+            border-color: var(--primary-dark);
+        }
+
+        .stats-bar {
+            background: var(--text-light);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .accordion {
+            background-color: var(--text-light);
+            border-radius: var(--border-radius);
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid #e1e5eb;
+        }
+
+        .accordion-header, .accordion-header * {
+            cursor: pointer;
+        }
+
+        .accordion-header {
+            padding: 18px 20px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--text-light);
+            gap: 15px;
+            user-select: none;
+        }
+
+        .accordion-header:active {
+            background-color: var(--secondary);
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.8rem;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .accordion.active .accordion-header::after {
+            content: '−';
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.3s ease;
+            background-color: #fafbfc;
+            opacity: 0;
+        }
+
+        .accordion.active .accordion-body {
+            padding: 20px;
+            max-height: 1000px;
+            border-top: 1px solid #eee;
+            opacity: 1;
+        }
+
+        .answer-box {
+            padding-left: 15px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .tips {
+            font-size: 0.9rem;
+            color: #495057;
+            background: #eaf5eb;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid var(--success);
+            display: flex;
+            gap: 10px;
+        }
+
+        .badge {
+            background-color: var(--warning);
+            color: #000;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>G2G Interview Prep</h1>
+        <p>Commerce & Service Sector - Offline App</p>
+        <div id="offline-status" class="offline-badge">Ready for Offline Use</div>
+    </header>
+
+    <div class="container">
+        <div class="stats-bar">
+            <span id="category-title">All Questions</span>
+            <span id="question-count">Loading...</span>
+        </div>
+
+        <div class="filter-container" id="filters">
+            <button class="filter-btn active" data-filter="all">All Questions</button>
+            <button class="filter-btn" data-filter="core">⭐ Core & Profile</button>
+            <button class="filter-btn" data-filter="experience">Experience & Skills</button>
+            <button class="filter-btn" data-filter="customers">Customer Service & Sales</button>
+            <button class="filter-btn" data-filter="behavioral">Behavioral & Situations</button>
+            <button class="filter-btn" data-filter="compliance">Compliance & General</button>
+        </div>
+
+        <div id="qa-container"></div>
+    </div>
+
+    <script>
+        // --- 1. Service Worker Registration for Offline Support ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered successfully');
+                        document.getElementById('offline-status').style.display = 'block';
+                    })
+                    .catch(err => console.log('ServiceWorker registration failed: ', err));
+            });
+        }
+
+        // --- 2. Interview Data ---
+        const interviewData = [
+            { category: "core", question: "1. Can you introduce yourself?", answer: "Good morning. My name is A.M. Udaya Saman. I have two and a half years of experience working as a Cashier at Matara Hotel & Bakers. I am a hardworking, honest, and responsible person. I am very grateful to have this opportunity to interview for a position in Israel.", tips: "Speak clearly and confidently. Smile slightly." },
+            { category: "core", question: "2. Why do you want to work abroad / in Israel specifically?", answer: "I want to work in Israel because it offers excellent career opportunities and a highly professional work environment. I am ready to work hard and strictly respect the country's culture and laws.", tips: "Shows ambition and respect for the host country." },
+            { category: "core", question: "3. Have you worked abroad before?", answer: "No, this will be my first overseas job experience. However, I am fully prepared and highly motivated to adapt to a new country and work environment.", tips: "Be honest. They verify your travel history." },
+            { category: "core", question: "4. Are you healthy and fit for physical work?", answer: "Yes, I am completely healthy and physically fit. I am accustomed to standing for long hours and working efficiently in busy environments.", tips: "A mandatory requirement for foreign workers." },
+            { category: "experience", question: "5. Tell me about your work experience.", answer: "From May 2023 to December 2025, I worked as a Cashier at Matara Hotel & Bakers. I handled daily cash transactions accurately, provided courteous customer service, and willingly assisted with various daily operational tasks to support my team.", tips: "Perfectly matches your Service Certificate." },
+            { category: "experience", question: "6. What were your specific job responsibilities?", answer: "My main responsibilities were processing customer payments accurately, managing daily financial records, and providing polite customer service. Additionally, I assisted with other operational tasks whenever required.", tips: "Emphasize that you helped with overall operations." },
+            { category: "experience", question: "7. Have you worked with cash handling or billing?", answer: "Yes, I have extensive experience. As a Cashier for two and a half years, I was responsible for processing all billing, handling cash securely, and maintaining highly accurate financial records.", tips: "Trust and accuracy are key here." },
+            { category: "experience", question: "8. What kind of work can you do?", answer: "I can work in sales, customer service, cashiering, handling products, and other service-related duties. I am flexible and willing to learn any new task required by the employer.", tips: "Show versatility." },
+            { category: "customers", question: "9. How do you treat customers?", answer: "I always treat customers with respect, patience, and a friendly attitude. My goal is to serve them politely and help them efficiently.", tips: "Politeness is a universal requirement." },
+            { category: "customers", question: "10. How do you handle an angry or rude customer?", answer: "I stay calm, listen carefully to their problem without interrupting, and speak politely. I do not argue. I try to solve the issue professionally, and if I cannot, I inform my supervisor.", tips: "Patience and de-escalation are what they look for." },
+            { category: "customers", question: "11. How do you sell a product to a customer?", answer: "First, I understand the customer's needs. Then, I recommend suitable products, clearly explain their benefits, and provide excellent customer service.", tips: "Demonstrates proactive thinking." },
+            { category: "customers", question: "12. What will you do if you do not know about a product?", answer: "I would politely ask the customer to wait, quickly check the correct information from my supervisor or a colleague, and then assist the customer properly.", tips: "Honesty is crucial. Do not guess." },
+            { category: "behavioral", question: "13. Can you work under pressure or if the shop is busy?", answer: "Yes. When the workplace is busy, I stay calm, focused, and prioritize my tasks properly. I work efficiently to serve customers quickly and politely.", tips: "Draw confidence from your bakery rush hour experience." },
+            { category: "behavioral", question: "14. What are your strengths?", answer: "I am honest, hardworking, punctual, and highly responsible. I learn fast, communicate well, and have a genuine willingness to support my management.", tips: "Matches your previous manager's praise." },
+            { category: "behavioral", question: "15. What is your weakness?", answer: "Sometimes I pay too much attention to small details because I want everything to be perfect. However, I have learned to manage my time well.", tips: "Frame a weakness as a positive trait." },
+            { category: "behavioral", question: "16. Do you work well in a team?", answer: "Yes, absolutely. I communicate well, respect my teammates, and always support them to ensure smooth operations.", tips: "Teamwork is highly valued." },
+            { category: "behavioral", question: "17. What would you do if you made a mistake?", answer: "I would immediately admit the mistake to my supervisor, correct it quickly, and learn from it to ensure it does not happen again.", tips: "Accountability is very important." },
+            { category: "behavioral", question: "18. What would you do if your supervisor gave strict instructions?", answer: "I would listen carefully, respect their authority, follow the instructions exactly as given, and complete the task properly.", tips: "Shows discipline." },
+            { category: "behavioral", question: "19. Why should we hire you?", answer: "You should hire me because I am hardworking, honest, and physically fit. I am fully committed to doing my job properly, and I have proven experience in handling cash accurately.", tips: "Deliver this with strong confidence." },
+            { category: "compliance", question: "20. Are you willing to work in shifts, long hours, or overtime?", answer: "Yes, I am fully prepared and willing to work day shifts, night shifts, weekends, long hours, and complete overtime duties whenever required.", tips: "Say 'Yes' without hesitation." },
+            { category: "compliance", question: "21. Are you willing to learn new things?", answer: "Yes, I am a fast learner and always enthusiastic about learning new skills or adapting to new systems.", tips: "Shows a growth mindset." },
+            { category: "compliance", question: "22. Can you work with foreigners and different cultures?", answer: "Yes, I respect different cultures and can communicate and work well with anyone. I treat everyone equally and with respect.", tips: "Essential for international environments." },
+            { category: "compliance", question: "23. Are you willing to follow Israeli laws and local customs?", answer: "Yes, absolutely. I will strictly respect and follow all Israeli laws, workplace policies, and safety rules. I am also ready to adapt to local customs.", tips: "Critical compliance question. 100% assurance needed." },
+            { category: "compliance", question: "24. Do you understand your job responsibilities?", answer: "Yes, I understand that I must assist customers, support daily operations, follow all instructions, and work safely.", tips: "Confirmation you know what you are signing up for." },
+            { category: "compliance", question: "25. Do you have any questions for us?", answer: "Thank you for the opportunity. I have a clear understanding of the expectations, and I do not have any questions at the moment.", tips: "End on a polite, enthusiastic note." }
+        ];
+
+        // --- 3. UI Logic ---
+        const container = document.getElementById('qa-container');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const questionCount = document.getElementById('question-count');
+        const categoryTitle = document.getElementById('category-title');
+
+        function renderQuestions(filter = 'all') {
+            container.innerHTML = '';
+            const filteredData = filter === 'all' ? interviewData : interviewData.filter(item => item.category === filter);
+            questionCount.textContent = `${filteredData.length} Questions`;
+            const activeBtn = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
+            categoryTitle.textContent = activeBtn ? activeBtn.textContent.replace('⭐ ', '') : 'All Questions';
+
+            filteredData.forEach((item) => {
+                const isCrucial = item.question.includes("introduce yourself") || item.question.includes("work experience") || item.question.includes("laws");
+                const badgeHtml = isCrucial ? `<br><span class="badge">Most Asked</span>` : '';
+                const acc = document.createElement('div');
+                acc.className = 'accordion';
+                acc.innerHTML = `
+                    <div class="accordion-header">
+                        <div>${item.question} ${badgeHtml}</div>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="answer-box">
+                            <p><strong>Answer:</strong> "${item.answer}"</p>
+                        </div>
+                        <div class="tips">
+                            <span>💡</span><span><strong>Tip:</strong> ${item.tips}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(acc);
+            });
+        }
+
+        // Event Delegation for Accordions
+        container.addEventListener('click', function(e) {
+            const header = e.target.closest('.accordion-header');
+            if (header) {
+                const clickedAccordion = header.closest('.accordion');
+                const isCurrentlyActive = clickedAccordion.classList.contains('active');
+                document.querySelectorAll('.accordion').forEach(a => a.classList.remove('active'));
+                if (!isCurrentlyActive) {
+                    clickedAccordion.classList.add('active');
+                }
+            }
+        });
+
+        // Filter Logic
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderQuestions(e.target.dataset.filter);
+            });
+        });
+
+        renderQuestions('all');
+    </script>
+</body>
+</html>
